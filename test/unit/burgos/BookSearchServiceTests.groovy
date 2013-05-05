@@ -17,8 +17,9 @@ class BookSearchServiceTests {
   	def completion_block = { success, response ->  
   		println response
   		assert success == true
+  		assert response
     }
-    def book = service.searchBook( TEST_BOOK_NAME, completion_block )
+    service.searchBook( TEST_BOOK_NAME, completion_block )
     
   }
 
