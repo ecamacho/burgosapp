@@ -17,8 +17,16 @@ class BookSearchService {
   		headers.'User-Agent' = "Mozilla/5.0 Firefox/3.0.4"
   		headers.Accept = 'application/json'
  
-  		response.success = { resp, reader ->    		    
-    	 completion_block( true, filter_amazon_results( amazon_books_from_json( reader.text ), book_name ) )
+  		response.success = { resp, reader ->
+       def books_from_amazon = amazon_books_from_json( reader.text )
+       if ( books_from_amazon ) {
+        def book_candidate = filter_amazon_results( books_from_amazon, book_name )
+
+        completion_block( true,  book_candidate )
+       } else {
+         completion_block( false, null )
+       }
+
   		}
  
   		response.'404' = {
